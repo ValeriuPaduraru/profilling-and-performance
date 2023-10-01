@@ -3,7 +3,7 @@
         const $financesEl = $('#finances');
         await appendFinanceData($financesEl);
         await appendOperations();
-        await appendUsers();
+        listenToUsersTabClick();
         $('#refreshOperations').bind( 'click', refreshOperations);
         $('#loadMoreUsers').bind( 'click', appendUsers);
         setupIntersectionObserver();
@@ -224,5 +224,12 @@
             threshold:0
         })
         observer.observe(document.querySelector('.map'));
+    }
+
+    function listenToUsersTabClick() {
+        $("#users-tab").on('click',async function () {
+            await appendUsers();
+            $("#users-tab").off();
+        })
     }
 })();
