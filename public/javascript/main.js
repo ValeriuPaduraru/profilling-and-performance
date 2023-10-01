@@ -6,6 +6,7 @@
         await appendUsers();
         $('#refreshOperations').bind( 'click', refreshOperations);
         $('#loadMoreUsers').bind( 'click', appendUsers);
+        setupIntersectionObserver();
     });
 
     const locale = 'en-US';
@@ -206,5 +207,22 @@
             return;
         }
         this.tables.push(table);
+    }
+
+    function setupIntersectionObserver() {
+        const observer = new IntersectionObserver((entries)=>{
+            entries.forEach(entry=>{
+                if(entry.isIntersecting){
+                    const imageHTMLElement = entry.target;
+                    const imageSrc = imageHTMLElement.dataset.src;
+                    imageHTMLElement.setAttribute("src",imageSrc);
+                    observer.unobserve(imageHTMLElement);
+                }
+            })
+        }, {
+            rootMargin:'200px',
+            threshold:0
+        })
+        observer.observe(document.querySelector('.map'));
     }
 })();
